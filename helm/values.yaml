@@ -1,0 +1,8 @@
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+job:
+  name: swapi
+  image:
+    repository: stenou/swapi
+    tag: latest
+    imagePullPolicy: IfNotPresent

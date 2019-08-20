@@ -1,0 +1,23 @@
+{{- $chartName := .Chart.Name }}
+{{- $chartVersion := .Chart.Version | replace "+" "_" }}
+{{- $release_name := .Release.Name }}
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: "{{ .Values.job.name }}-{{ $release_name }}"
+labels:
+  chart: "{{ $chartName }}-{{ $chartVersion }}"
+spec:
+  template:
+    spec:
+      containers:
+      - name: {{ .Values.job.name }}
+        image: {{ .Values.job.image.repository }}:{{ .Values.job.image.tag }}
+        imagePullPolicy: {{ .Values.job.image.imagePullPolicy }}
+        command: ["/bin/ash"]
+        args:
+          - -c
+          - while true; do sleep 1000; done
+      restartPolicy: Never
+  backoffLimit: 4
